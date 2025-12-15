@@ -3,8 +3,14 @@
 FROM emqx/emqx-enterprise:6.0.1
 
 # Set environment variables for Railway
+# Listen on all interfaces (IPv4 and IPv6) for Railway private networking
 ENV EMQX_ALLOW_ANONYMOUS=true \
-    EMQX_NODE_NAME=emqx@emqx-broker.railway.internal
+    EMQX_NODE_NAME=emqx@emqx-broker.railway.internal \
+    EMQX_LISTENERS__TCP__DEFAULT__BIND="[::]:1883" \
+    EMQX_LISTENERS__WS__DEFAULT__BIND="[::]:8083" \
+    EMQX_LISTENERS__WSS__DEFAULT__BIND="[::]:8084" \
+    EMQX_LISTENERS__SSL__DEFAULT__BIND="[::]:8883" \
+    EMQX_DASHBOARD__LISTENERS__HTTP__BIND="[::]:18083"
 
 # Expose required ports
 # 1883: MQTT TCP
